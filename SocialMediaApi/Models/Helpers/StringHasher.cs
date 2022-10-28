@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace SocialMediaApi.Models
+namespace SocialMediaApi.Models.Helpers
 {
     public static class StringHasher
     {

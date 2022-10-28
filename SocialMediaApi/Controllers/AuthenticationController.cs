@@ -10,7 +10,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SocialMediaApi.Data;
-using SocialMediaApi.Models;
+using SocialMediaApi.Models.Helpers;
+using SocialMediaApi.Models.Input;
+using SocialMediaApi.Models.Output;
 
 namespace SocialMediaApi.Controllers
 {
@@ -19,30 +21,89 @@ namespace SocialMediaApi.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly DataContext _context;
-        private readonly PasswordHasher<User> _passwordHasher;
 
         public AuthenticationController(DataContext context)
         {
             _context = context;
-            _passwordHasher = new PasswordHasher<User>();
+        }
+
+        [HttpPost]
+        [Route("/Authorize")]
+        public async Task<ActionResult<AuthenticatedUserOutput>> AuthorizeUserToken(UserAuthorizationInput input)
+        {
+            if (!TokenExists(input.LoginToken))
+            {
+                return NotFound();
+            }
+            
+            LoginToken? token = await _context.LoginTokens.Where(x => x.HashedValue.Equals(StringHasher.HashString(input.LoginToken))).Include(x => x.Owner).Include(x => x.Owner.Followers).FirstAsync();
+            if (token == null) return NotFound();
+            else if (
+                token.DevicePlatform.Equals(input.DevicePlatform) &&
+                token.DeviceIdiom.Equals(input.DeviceIdiom) && 
+                token.DeviceType.Equals(input.DeviceType) &&
+                token.DeviceModel.Equals(input.DeviceModel) &&
+                token.DeviceManufacturer.Equals(input.DeviceManufacturer) && 
+                (DateTime.Now - token.LastAccessed).TotalDays < 60)
+            {
+                User user = token.Owner;
+                AuthenticatedUserOutput output = new AuthenticatedUserOutput
+                {
+                    Id = user.Id,
+                    Username = user.Username,
+                    Email = user.Email,
+                    ProfilePictureSource = user.ProfilePictureSource,
+                    FollowerCount = user.Followers.Count
+                };
+
+                try
+                {
+                    token.LastAccessed = DateTime.Now;
+                    _context.LoginTokens.Update(token);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+                return output;
+            }
+            else if ((DateTime.Now - token.LastAccessed).TotalDays > 60)
+            {
+                try
+                {
+                    _context.LoginTokens.Remove(token);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            return BadRequest("Token mismatched or expired");
         }
 
         [HttpPost]
         [Route("/login")]
-        public async Task<ActionResult<string>> LoginUser(string username, string password)
+        public async Task<ActionResult<string>> LoginUser(UserLoginInput input)
         {
             User user;
-            if (new EmailAddressAttribute().IsValid(username) && UserExists(new MailAddress(username)))
+            if (new EmailAddressAttribute().IsValid(input.Username) && UserExists(new MailAddress(input.Username)))
             {
-                user = _context.Users.Where(x => x.Email == username).First();
+                user = _context.Users.Where(x => x.Email == input.Username).First();
             }
-            else if (UserExists(username))
+            else if (UserExists(input.Username))
             {
-                user = _context.Users.Where(x => x.Username == username).First();
+                user = _context.Users.Where(x => x.Username == input.Username).First();
             }
             else
             {
                 return NotFound();
+            }
+            if (user.HashedPassword != StringHasher.HashString(input.Password))
+            {
+                return BadRequest("Incorrect Password");
             }
 
             //  Build the token value
@@ -102,7 +163,7 @@ namespace SocialMediaApi.Controllers
                     Email = input.Email,
                     ProfilePictureSource = "/Images/Default/pfp.jpg"
                 };
-                user.HashedPassword = _passwordHasher.HashPassword(user, input.Password);
+                user.HashedPassword = StringHasher.HashString(input.Password);
 
                 try
                 {
@@ -114,7 +175,12 @@ namespace SocialMediaApi.Controllers
                     return BadRequest(e.Message);
                 }
 
-                return await LoginUser(input.Username, input.Password);
+                UserLoginInput loginInput = new UserLoginInput
+                {
+                    Username = input.Username,
+                    Password = input.Password
+                };
+                return await LoginUser(loginInput);
             }
             else
             {

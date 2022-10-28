@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using SocialMediaApi.Data;
 
 namespace SocialMediaApi
@@ -26,6 +27,13 @@ namespace SocialMediaApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(builder.Environment.ContentRootPath, "Images")),
+                RequestPath = "/Images"
+            });
 
             app.UseAuthorization();
 

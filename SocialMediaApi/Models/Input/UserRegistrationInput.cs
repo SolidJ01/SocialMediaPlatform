@@ -1,4 +1,4 @@
-﻿namespace SocialMediaApi.Models
+﻿namespace SocialMediaApi.Models.Input
 {
     public class UserRegistrationInput
     {

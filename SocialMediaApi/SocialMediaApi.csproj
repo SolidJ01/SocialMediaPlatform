@@ -7,7 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\Default\ISS067-E-302073.jpg" />
     <None Remove="Images\Default\PIA03276~orig.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\Default\ISS067-E-302073.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +30,10 @@
 
   <ItemGroup>
     <Resource Include="Images\Default\PIA03276~orig.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Images\Uploads\" />
   </ItemGroup>
 
 </Project>
