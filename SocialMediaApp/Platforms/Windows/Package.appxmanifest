@@ -37,6 +37,8 @@
   </Applications>
 
   <Capabilities>
+	  <DeviceCapability Name="microphone" />
+	  <DeviceCapability Name="webcam" />
     <rescap:Capability Name="runFullTrust" />
   </Capabilities>
 

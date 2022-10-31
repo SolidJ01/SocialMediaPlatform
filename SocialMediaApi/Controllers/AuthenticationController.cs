@@ -28,8 +28,8 @@ namespace SocialMediaApi.Controllers
         }
 
         [HttpPost]
-        [Route("/Authorize")]
-        public async Task<ActionResult<AuthenticatedUserOutput>> AuthorizeUserToken(UserAuthorizationInput input)
+        [Route("/Authenticate")]
+        public async Task<ActionResult<AuthenticatedUserOutput>> AuthenticateUserToken(UserAuthorizationInput input)
         {
             if (!TokenExists(input.LoginToken))
             {
@@ -131,11 +131,11 @@ namespace SocialMediaApi.Controllers
                 Owner = user,
                 HashedValue = StringHasher.HashString(tokenValue),
                 LastAccessed = DateTime.Now,
-                DeviceIdiom = "",
-                DeviceManufacturer = "",
-                DeviceModel = "",
-                DevicePlatform = "", 
-                DeviceType = ""
+                DeviceIdiom = input.DeviceIdiom,
+                DeviceManufacturer = input.DeviceManufacturer,
+                DeviceModel = input.DeviceModel,
+                DevicePlatform = input.DevicePlatform, 
+                DeviceType = input.DeviceType
             };
 
             try
@@ -161,7 +161,7 @@ namespace SocialMediaApi.Controllers
                 {
                     Username = input.Username,
                     Email = input.Email,
-                    ProfilePictureSource = "/Images/Default/pfp.jpg"
+                    ProfilePictureSource = "/Images/Default/pfp.png"
                 };
                 user.HashedPassword = StringHasher.HashString(input.Password);
 

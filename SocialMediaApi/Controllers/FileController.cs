@@ -25,14 +25,15 @@ namespace SocialMediaApi.Controllers
                 return BadRequest(input.File.FileName);
             }
 
-            if (!input.File.ContentType.Equals("image/jpg", StringComparison.OrdinalIgnoreCase) &&
-                !input.File.ContentType.Equals("image/jpeg", StringComparison.OrdinalIgnoreCase) &&
-                !input.File.ContentType.Equals("image/pjpeg", StringComparison.OrdinalIgnoreCase) &&
-                !input.File.ContentType.Equals("image/gif", StringComparison.OrdinalIgnoreCase) &&
-                !input.File.ContentType.Equals("image/png", StringComparison.OrdinalIgnoreCase))
-            {
-                return BadRequest("Incorrect File Type");
-            }
+            //  TODO: figure out why contenttype is always null
+            //if (!input.File.ContentType.Equals("image/jpg", StringComparison.OrdinalIgnoreCase) &&
+            //    !input.File.ContentType.Equals("image/jpeg", StringComparison.OrdinalIgnoreCase) &&
+            //    !input.File.ContentType.Equals("image/pjpeg", StringComparison.OrdinalIgnoreCase) &&
+            //    !input.File.ContentType.Equals("image/gif", StringComparison.OrdinalIgnoreCase) &&
+            //    !input.File.ContentType.Equals("image/png", StringComparison.OrdinalIgnoreCase))
+            //{
+            //    return BadRequest("Incorrect File Type");
+            //}
 
             string extension = Path.GetExtension(input.File.FileName);
             if (!extension.Equals(".jpg", StringComparison.OrdinalIgnoreCase) &&

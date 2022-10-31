@@ -1,35 +1,63 @@
 ﻿using SocialMediaApp.Models;
+using SocialMediaApp.Models.API.Responses;
+using SocialMediaApp.Services;
+using SocialMediaApp.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace SocialMediaApp.ViewModels
 {
-    internal class FeedViewModel
+    public class FeedViewModel : BaseViewModel
     {
+        private AuthenticationService _authenticationService;
         public ObservableCollection<Post> Posts { get; set; }
 
-        public FeedViewModel()
+        private AuthenticatedUserResponse? _userData;
+        public string UserName
         {
-            // TODO: Replace all this with actual data from an actual API connection
-            Posts = new ObservableCollection<Post>();
-            User user1 = new User {
-                Id = 1,
-                Username = "User1",
-                Email = "test@mail.com"
-            };
-            Posts.Add(new Post
+            get
             {
-                Id = 1, 
-                Title = "Hello World", 
-                Body = "This is such a cheap way of doing it", 
-                Created = DateTime.Now, 
-                Poster = user1, 
-                LikedBy = new List<User>()
-            });
+                return _userData == null ? "Loading..." : _userData.username;
+            }
+        }
+
+        public ICommand GoToProfileCommand { get; }
+
+        public FeedViewModel(AuthenticationService authenticationService)
+        {
+            _authenticationService = authenticationService;
+            Shell.Current.NavigatedTo += NavigatedTo;
+
+            GoToProfileCommand = new Command(GoToProfileAsync);
+        }
+
+        public async void GoToProfileAsync()
+        {
+            await Shell.Current.GoToAsync($"{nameof(ProfilePage)}", true);
+        }
+
+        private async void NavigatedTo(object sender, NavigatedToEventArgs e)
+        {
+            _userData = await _authenticationService.AuthenticateUser();
+            if (_userData == null)
+            {
+                await Shell.Current.GoToAsync($"//{nameof(LoginPage)}", true);
+            }
+        }
+
+        public async void Current_Loaded(object sender, EventArgs e)
+        {
+            _userData = await _authenticationService.AuthenticateUser();
+            OnPropertyChanged(nameof(UserName));
+            if (_userData == null)
+            {
+                await Shell.Current.GoToAsync($"//{nameof(LoginPage)}", true);
+            }
         }
     }
 }

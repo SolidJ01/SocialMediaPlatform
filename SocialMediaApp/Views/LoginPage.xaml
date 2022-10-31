@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:SocialMediaApp.ViewModels"
+             x:Class="SocialMediaApp.Views.LoginPage"
+             Title="LoginPage"
+             x:DataType="viewmodel:LoginViewModel">
+    <VerticalStackLayout 
+        Spacing="25"
+        Padding="30,0"
+        VerticalOptions="Center">
+
+        <Label Text="Log In" FontSize="26" />
+        <Entry Text="{Binding InputUsername}" BackgroundColor="{StaticResource Gray400}" />
+        <Entry Text="{Binding InputPassword}" BackgroundColor="{StaticResource Gray400}" IsPassword="True" />
+        <Button Text="Log In" Command="{Binding LoginCommand}" />
+
+    </VerticalStackLayout>
+</ContentPage>

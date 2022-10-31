@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:AuthenticatedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                        xmlns:view="clr-namespace:SocialMediaApp.Views"
+                        xmlns:viewmodel="clr-namespace:SocialMediaApp.ViewModels"
+                        x:Class="SocialMediaApp.Views.ProfileEditPage"
+                        x:DataType="viewmodel:ProfileEditViewModel"
+                        Title="ProfileEditPage">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <ScrollView Grid.Row="0">
+                <VerticalStackLayout>
+                    <Frame WidthRequest="150" HeightRequest="150" CornerRadius="75" HorizontalOptions="Start" IsClippedToBounds="True">
+                        <Image Source="{Binding PFPSource}" WidthRequest="150" HeightRequest="150" Aspect="AspectFill" />
+                    </Frame>
+                    <Button Text="Take photo" Command="{Binding TakePhotoCommand}" />
+                    <Button Text="Pick Photo" Command="{Binding PickPhotoCommand}" />
+                    <Entry Text="{Binding Username}" FontSize="36" HorizontalTextAlignment="Center" FontAttributes="Bold" />
+                </VerticalStackLayout>
+            </ScrollView>
+            
+            <Frame Grid.Row="1" Padding="10,0,10,10" BackgroundColor="Transparent" BorderColor="Transparent">
+                <Grid BackgroundColor="DarkGray" Padding="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Text="Back" Command="{Binding GoBackCommand}" HeightRequest="48"/>
+                    <HorizontalStackLayout Grid.Column="1" FlowDirection="RightToLeft">
+                        <Button Text="Save" Command="{Binding SaveCommand}" />
+                    </HorizontalStackLayout>
+                </Grid>
+            </Frame>
+        </Grid>
+    </ContentPage.Content>
+</view:AuthenticatedPage>
