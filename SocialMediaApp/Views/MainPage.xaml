@@ -2,13 +2,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodel="clr-namespace:SocialMediaApp.ViewModels"
+             xmlns:controls="clr-namespace:SocialMediaApp.Controls"
              x:Class="SocialMediaApp.MainPage"
              x:DataType="viewmodel:FeedViewModel">
 
-    <Grid>
+    <Grid Background="{StaticResource PrimaryGradientBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="60" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <ScrollView Grid.Row="0">
@@ -21,14 +22,22 @@
 
             </VerticalStackLayout>
         </ScrollView>
-        <Grid Grid.Row="1" BackgroundColor="DimGray">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="60" />
-            </Grid.ColumnDefinitions>
+        <Frame Grid.Row="1" Style="{StaticResource ControlBar}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Text="{Binding UserName}" Command="{Binding GoToProfileCommand}" FontSize="22" Margin="5" />
-        </Grid>
+                <HorizontalStackLayout Grid.Column="0" Padding="15,0">
+                    <Frame HeightRequest="40" WidthRequest="40" CornerRadius="20" IsClippedToBounds="True" BackgroundColor="{StaticResource Black}">
+                        <Image HeightRequest="40" WidthRequest="40" Aspect="AspectFill" Source="{Binding PFPSource}" />
+                    </Frame>
+                    <Label Text="{Binding UserName}" FontSize="22" FontAttributes="Bold" TextColor="{StaticResource Black}" VerticalOptions="Center" Margin="5,0,0,0" />
+                </HorizontalStackLayout>
+                <Button Grid.Column="0" BackgroundColor="Transparent" Command="{Binding GoToProfileCommand}" />
+            </Grid>
+        </Frame>
     </Grid>
 
 </ContentPage>

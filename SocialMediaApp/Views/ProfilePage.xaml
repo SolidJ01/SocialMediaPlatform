@@ -3,37 +3,39 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:SocialMediaApp.Views"
              xmlns:viewmodel="clr-namespace:SocialMediaApp.ViewModels"
+             xmlns:contols="clr-namespace:SocialMediaApp.Controls"
              x:Class="SocialMediaApp.Views.ProfilePage"
              x:DataType="viewmodel:ProfileViewModel"
              Title="ProfilePage">
     <ContentPage.Content>
-        <Grid>
+        <Grid Background="{StaticResource PrimaryGradientBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
 
             <ScrollView Grid.Row="0">
-                <VerticalStackLayout>
+                <!--<VerticalStackLayout>
                     <Frame WidthRequest="150" HeightRequest="150" CornerRadius="75" HorizontalOptions="Center" IsClippedToBounds="True">
                         <Image Source="{Binding PFPSource}" WidthRequest="150" HeightRequest="150" Aspect="AspectFill" />
                     </Frame>
                     <Label Text="{Binding Username}" FontSize="36" HorizontalTextAlignment="Center" FontAttributes="Bold" />
                     <Label Text="{Binding Followers}" FontSize="22" HorizontalTextAlignment="Center" FontAttributes="Bold" />
-                </VerticalStackLayout>
+                </VerticalStackLayout>-->
+                <contols:UserProfile PFPSource="{Binding PFPSource}" Username="{Binding Username}" Followers="{Binding Followers}" />
             </ScrollView>
             
-            <Frame Grid.Row="1" Padding="10,0,10,10" BackgroundColor="Transparent" BorderColor="Transparent">
-                <Grid BackgroundColor="DarkGray" Padding="10">
+            <Frame Grid.Row="1" Style="{StaticResource ControlBar}">
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    
-                    <Button Grid.Column="0" Text="Back" Command="{Binding GoBackCommand}" HeightRequest="48"/>
+
+                    <Button Grid.Column="0" Text="&#xf177;" Style="{StaticResource ControlBarButton}" Command="{Binding GoBackCommand}" />
                     <HorizontalStackLayout Grid.Column="1" FlowDirection="RightToLeft">
-                        <Button Text="Edit" Command="{Binding EditProfileCommand}" />
-                        <Button Text="Log Out" Margin="10,0,0,0" />
+                        <Button Text="&#xf044;" Style="{StaticResource ControlBarButton}" Command="{Binding EditProfileCommand}" />
+                        <Button Text="&#xf52b;" Style="{StaticResource ControlBarButton}" />
                     </HorizontalStackLayout>
                 </Grid>
             </Frame>

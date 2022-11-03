@@ -22,7 +22,15 @@ namespace SocialMediaApp.ViewModels
         {
             get
             {
-                return _userData == null ? "Loading..." : _userData.username;
+                return _userData != null ? _userData.username : "Loading";
+            }
+        }
+
+        public string PFPSource
+        {
+            get
+            {
+                return _userData != null ? Path.Combine("http://10.0.2.2:5166", _userData.profilePictureSource) : "";
             }
         }
 
@@ -54,6 +62,7 @@ namespace SocialMediaApp.ViewModels
         {
             _userData = await _authenticationService.AuthenticateUser();
             OnPropertyChanged(nameof(UserName));
+            OnPropertyChanged(nameof(PFPSource));
             if (_userData == null)
             {
                 await Shell.Current.GoToAsync($"//{nameof(LoginPage)}", true);

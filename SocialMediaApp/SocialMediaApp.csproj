@@ -50,9 +50,16 @@
 
 	<ItemGroup>
 	  <None Remove="Platforms\Android\Resources\xml\network_security_config.xml" />
+	  <None Remove="Resources\Fonts\FontAwesome6-Free-Solid-900.otf" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Controls\RoundedEntry.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Controls\UserProfile.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\AuthenticatedPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

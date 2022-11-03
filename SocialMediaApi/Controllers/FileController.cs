@@ -55,7 +55,7 @@ namespace SocialMediaApi.Controllers
                 await input.File.CopyToAsync(stream);
             }
 
-            var relativePath = Path.Combine(folderPath, fileName);
+            var relativePath = Path.Combine(folderPath, fileName).Replace("\\", "/");
 
             return Ok(relativePath);
         }

@@ -4,6 +4,47 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
+    <Style x:Key="FASolid" TargetType="Label">
+        <Setter Property="FontFamily" Value="FontAwesomeSolid" />
+    </Style>
+
+    <Style x:Key="ControlBar" TargetType="Frame">
+        <Setter Property="Background" Value="{StaticResource SecondaryBrush}" />
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="IsClippedToBounds" Value="True" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="HeightRequest" Value="60" />
+    </Style>
+
+    <Style x:Key="ControlBarButton" TargetType="Button">
+        <Setter Property="TextColor" Value="{StaticResource Black}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="FontFamily" Value="FontAwesomeSolid" />
+        <Setter Property="FontSize" Value="22"/>
+        <Setter Property="Padding" Value="20,12"/>
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="Margin" Value="0" />
+    </Style>
+
+    <Style x:Key="ProfilePictureFrame" TargetType="Frame">
+        <Setter Property="WidthRequest" Value="150" />
+        <Setter Property="HeightRequest" Value="150" />
+        <Setter Property="CornerRadius" Value="75" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="IsClippedToBounds" Value="True" />
+        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+        <Setter Property="Margin" Value="0,20,0,0" />
+    </Style>
+
+    <Style x:Key="TextEntry" TargetType="Entry">
+        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource Black}" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+    </Style>
+
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
     </Style>
@@ -24,12 +65,13 @@
     </Style>
 
     <Style TargetType="Button">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Primary}}" />
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
+        <Setter Property="TextColor" Value="{StaticResource Black}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="CornerRadius" Value="8"/>
-        <Setter Property="Padding" Value="14,10"/>
+        <Setter Property="FontSize" Value="22"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="Padding" Value="22,12"/>
+        <Setter Property="FontAttributes" Value="Bold" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">

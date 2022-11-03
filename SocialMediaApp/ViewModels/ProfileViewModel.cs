@@ -24,7 +24,7 @@ namespace SocialMediaApp.ViewModels
         {
             get
             {
-                return UserData != null ? Path.Combine("http://10.0.2.2", UserData.profilePictureSource) : "http://10.0.2.2:5166/Images/Default/pfp.png";
+                return UserData != null ? Path.Combine("http://10.0.2.2:5166", UserData.profilePictureSource) : "";
             }
         }
 

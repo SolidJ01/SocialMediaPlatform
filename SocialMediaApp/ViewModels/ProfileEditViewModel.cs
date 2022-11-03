@@ -1,10 +1,12 @@
-﻿using SocialMediaApp.Services;
+﻿using SocialMediaApp.Models.API.Requests;
+using SocialMediaApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -13,7 +15,6 @@ namespace SocialMediaApp.ViewModels
     public class ProfileEditViewModel : AuthenticatedPageViewModel
     {
         private FileResult _newPhoto;
-        private string pfpsource;
         public ImageSource PFPSource
         {
             //get { return "http://10.0.2.2:5166/Images/Default/pfp.png"; }
@@ -23,7 +24,7 @@ namespace SocialMediaApp.ViewModels
                 //return ImageSource.FromUri(new Uri(Path.Combine("http://10.0.2.2:5166", UserData.profilePictureSource)));
                 if (UserData == null)
                 {
-                    return ImageSource.FromUri(new Uri("http://10.0.2.2:5166/Images/Default/pfp.png"));
+                    return null; // ImageSource.FromUri(new Uri("http://10.0.2.2:5166/Images/Default/pfp.png"));
                 }
                 else if (_newPhoto == null)
                 {
@@ -47,8 +48,24 @@ namespace SocialMediaApp.ViewModels
                 if (UserData != null)
                 {
                     UserData.username = value;
+                    OnPropertyChanged();
                 }
-                OnPropertyChanged();
+            }
+        }
+
+        public string Email
+        {
+            get
+            {
+                return UserData != null ? UserData.email : "Loading";
+            }
+            set
+            {
+                if (UserData != null)
+                {
+                    UserData.email = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -94,6 +111,20 @@ namespace SocialMediaApp.ViewModels
 
         private async void Save()
         {
+            UserProfileUpdateRequest request = new UserProfileUpdateRequest
+            {
+                DeviceIdiom = DeviceInfo.Current.Idiom.ToString(),
+                DeviceManufacturer = DeviceInfo.Current.Manufacturer,
+                DeviceModel = DeviceInfo.Current.Model,
+                DevicePlatform = DeviceInfo.Current.Platform.ToString(),
+                DeviceType = DeviceInfo.Current.DeviceType.ToString(),
+                Email = Email,
+                Username = Username,
+                ProfilePictureSource = UserData.profilePictureSource,
+                LoginToken = _authenticationService.Token
+            };
+
+            //  Photo upload
             if (_newPhoto != null)
             {
                 using (var formContent = new MultipartFormDataContent())
@@ -113,8 +144,30 @@ namespace SocialMediaApp.ViewModels
                         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("multipart/form-data"));
 
                         var response = await client.PostAsync("http://10.0.2.2:5166/api/File", formContent);
-                        var result = await response.Content.ReadAsStringAsync();
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var result = await response.Content.ReadAsStringAsync();
+                            request.ProfilePictureSource = result;
+                        }
                     }
+                }
+            }
+
+            //  Profile data update
+            using (var client = new HttpClient())
+            {
+                //  TODO: Post thing to api, then if success go back to profile page
+                var jsonRequest = JsonSerializer.Serialize(request);
+                var requestContent = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+
+                var result = await client.PostAsync("http://10.0.2.2:5166/api/User", requestContent);
+                if (result.IsSuccessStatusCode)
+                {
+                    GoBack();
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Error", "Unable to save changes", "Ok");
                 }
             }
         }
@@ -128,6 +181,7 @@ namespace SocialMediaApp.ViewModels
         {
             OnPropertyChanged(nameof(PFPSource));
             OnPropertyChanged(nameof(Username));
+            OnPropertyChanged(nameof(Email));
         }
     }
 }

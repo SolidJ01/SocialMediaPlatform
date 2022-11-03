@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Name="this"
+             x:Class="SocialMediaApp.Controls.UserProfile">
+    <VerticalStackLayout BindingContext="{x:Reference this}">
+        <Frame Style="{StaticResource ProfilePictureFrame}">
+            <Image Source="{Binding PFPSource}" WidthRequest="150" HeightRequest="150" Aspect="AspectFill" />
+        </Frame>
+        <Label Text="{Binding Username}" FontSize="36" HorizontalTextAlignment="Center" FontAttributes="Bold" TextColor="{StaticResource White}" />
+        <Label Text="{Binding Followers}" FontSize="22" HorizontalTextAlignment="Center" FontAttributes="Bold" TextColor="{StaticResource White}" />
+    </VerticalStackLayout>
+</ContentView>

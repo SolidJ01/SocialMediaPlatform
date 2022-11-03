@@ -3,37 +3,48 @@
                         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                         xmlns:view="clr-namespace:SocialMediaApp.Views"
                         xmlns:viewmodel="clr-namespace:SocialMediaApp.ViewModels"
+                        xmlns:controls="clr-namespace:SocialMediaApp.Controls"
                         x:Class="SocialMediaApp.Views.ProfileEditPage"
                         x:DataType="viewmodel:ProfileEditViewModel"
                         Title="ProfileEditPage">
     <ContentPage.Content>
-        <Grid>
+        <Grid Background="{StaticResource PrimaryGradientBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
 
             <ScrollView Grid.Row="0">
-                <VerticalStackLayout>
-                    <Frame WidthRequest="150" HeightRequest="150" CornerRadius="75" HorizontalOptions="Start" IsClippedToBounds="True">
+                <VerticalStackLayout Padding="10,0">
+                    <Frame Style="{StaticResource ProfilePictureFrame}">
                         <Image Source="{Binding PFPSource}" WidthRequest="150" HeightRequest="150" Aspect="AspectFill" />
                     </Frame>
-                    <Button Text="Take photo" Command="{Binding TakePhotoCommand}" />
-                    <Button Text="Pick Photo" Command="{Binding PickPhotoCommand}" />
-                    <Entry Text="{Binding Username}" FontSize="36" HorizontalTextAlignment="Center" FontAttributes="Bold" />
+                    <Grid Margin="0,20,0,0" ColumnSpacing="20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="0" Text="&#xf030;" FontFamily="FontAwesomeSolid" Command="{Binding TakePhotoCommand}" />
+                        <Button Grid.Column="1" Text="&#xf03e;" FontFamily="FontAwesomeSolid" Command="{Binding PickPhotoCommand}" />
+                    </Grid>
+                    <!--<Entry Text="{Binding Username}" Style="{StaticResource TextEntry}" />-->
+                    <!--<Entry Text="{Binding Email}" Style="{StaticResource TextEntry}" />-->
+                    <controls:RoundedEntry Text="{Binding Username}" />
+                    <controls:RoundedEntry Text="{Binding Email}" />
                 </VerticalStackLayout>
             </ScrollView>
             
-            <Frame Grid.Row="1" Padding="10,0,10,10" BackgroundColor="Transparent" BorderColor="Transparent">
-                <Grid BackgroundColor="DarkGray" Padding="10">
+            <Frame Grid.Row="1" Style="{StaticResource ControlBar}">
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="0" Text="Back" Command="{Binding GoBackCommand}" HeightRequest="48"/>
+                    <Button Grid.Column="0" Text="&#xf177;" Style="{StaticResource ControlBarButton}" Command="{Binding GoBackCommand}" />
                     <HorizontalStackLayout Grid.Column="1" FlowDirection="RightToLeft">
-                        <Button Text="Save" Command="{Binding SaveCommand}" />
+                        <Button Text="&#xf0c7;" Style="{StaticResource ControlBarButton}" Command="{Binding SaveCommand}" />
                     </HorizontalStackLayout>
                 </Grid>
             </Frame>
