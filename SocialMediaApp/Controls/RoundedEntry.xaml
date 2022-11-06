@@ -4,6 +4,6 @@
              x:Name="this"
              x:Class="SocialMediaApp.Controls.RoundedEntry">
     <Frame BindingContext="{x:Reference this}" CornerRadius="10" IsClippedToBounds="True" Padding="0" Margin="0,20,0,0">
-        <Entry Text="{Binding Text, Mode=TwoWay}" Style="{StaticResource TextEntry}" />
+        <Entry Text="{Binding Text, Mode=TwoWay}" Style="{StaticResource TextEntry}" IsPassword="{Binding IsPassword}" />
     </Frame>
 </ContentView>

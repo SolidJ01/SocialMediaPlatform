@@ -2,18 +2,22 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodel="clr-namespace:SocialMediaApp.ViewModels"
+             xmlns:controls="clr-namespace:SocialMediaApp.Controls"
              x:Class="SocialMediaApp.Views.LoginPage"
              Title="LoginPage"
-             x:DataType="viewmodel:LoginViewModel">
+             x:DataType="viewmodel:LoginViewModel"
+             Background="{StaticResource PrimaryGradientBrush}">
     <VerticalStackLayout 
         Spacing="25"
         Padding="30,0"
         VerticalOptions="Center">
 
-        <Label Text="Log In" FontSize="26" />
-        <Entry Text="{Binding InputUsername}" BackgroundColor="{StaticResource Gray400}" />
-        <Entry Text="{Binding InputPassword}" BackgroundColor="{StaticResource Gray400}" IsPassword="True" />
-        <Button Text="Log In" Command="{Binding LoginCommand}" />
+        <Label Text="Log In" FontSize="32" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="{StaticResource White}" />
+        <!--<Entry Text="{Binding InputUsername}" BackgroundColor="{StaticResource Gray400}" />-->
+        <!--<Entry Text="{Binding InputPassword}" BackgroundColor="{StaticResource Gray400}" IsPassword="True" />-->
+        <controls:RoundedEntry Text="{Binding InputUsername}" />
+        <controls:RoundedEntry Text="{Binding InputPassword}" IsPassword="True" />
+        <Button Text="Log In" Command="{Binding LoginCommand}" Margin="0,20,0,0" />
 
     </VerticalStackLayout>
 </ContentPage>

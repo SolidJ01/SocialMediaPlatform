@@ -14,5 +14,7 @@ namespace SocialMediaApi.Data
         [Required]
         public string HashedPassword { get; set; }
         public List<LoginToken> LoginTokens { get; set; }
+        public List<Post> Posts { get; set; }
+        public List<Post> LikedPosts { get; set; }
     }
 }

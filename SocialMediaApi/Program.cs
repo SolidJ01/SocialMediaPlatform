@@ -19,6 +19,7 @@ namespace SocialMediaApi
 
             builder.Services.AddDbContext<DataContext>(options => options.UseSqlite("DataSource = Database.db"));
 
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

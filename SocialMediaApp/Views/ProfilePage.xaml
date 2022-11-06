@@ -35,7 +35,7 @@
                     <Button Grid.Column="0" Text="&#xf177;" Style="{StaticResource ControlBarButton}" Command="{Binding GoBackCommand}" />
                     <HorizontalStackLayout Grid.Column="1" FlowDirection="RightToLeft">
                         <Button Text="&#xf044;" Style="{StaticResource ControlBarButton}" Command="{Binding EditProfileCommand}" />
-                        <Button Text="&#xf52b;" Style="{StaticResource ControlBarButton}" />
+                        <Button Text="&#xf52b;" Style="{StaticResource ControlBarButton}" Command="{Binding LogOutCommand}" />
                     </HorizontalStackLayout>
                 </Grid>
             </Frame>

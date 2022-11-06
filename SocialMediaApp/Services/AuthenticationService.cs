@@ -148,5 +148,10 @@ namespace SocialMediaApp.Services
         {
             throw new NotImplementedException();
         }
+
+        public async Task LogOutUser()
+        {
+            await ClearToken();
+        }
     }
 }

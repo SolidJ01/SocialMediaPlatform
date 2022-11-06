@@ -37,12 +37,14 @@ namespace SocialMediaApp.ViewModels
         }
 
         public ICommand EditProfileCommand { get; }
+        public ICommand LogOutCommand { get; }
 
         public ICommand GoBackCommand { get; }
 
         public ProfileViewModel(AuthenticationService authenticationService) : base(authenticationService)
         {
             EditProfileCommand = new Command(EditProfile);
+            LogOutCommand = new Command(LogOut);
 
             GoBackCommand = new Command(GoBack);
         }
@@ -50,6 +52,12 @@ namespace SocialMediaApp.ViewModels
         private async void EditProfile()
         {
             await Shell.Current.GoToAsync(nameof(ProfileEditPage), true);
+        }
+
+        private async void LogOut()
+        {
+            await _authenticationService.LogOutUser();
+            await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
         }
 
         private async void GoBack()

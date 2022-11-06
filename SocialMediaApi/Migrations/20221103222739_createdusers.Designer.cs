@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialMediaApi.Data;
 
@@ -10,27 +11,13 @@ using SocialMediaApi.Data;
 namespace SocialMediaApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221103222739_createdusers")]
+    partial class createdusers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.10");
-
-            modelBuilder.Entity("PostUser", b =>
-                {
-                    b.Property<int>("LikedById")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("LikedPostsId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("LikedById", "LikedPostsId");
-
-                    b.HasIndex("LikedPostsId");
-
-                    b.ToTable("PostUser");
-                });
 
             modelBuilder.Entity("SocialMediaApi.Data.LoginToken", b =>
                 {
@@ -68,33 +55,6 @@ namespace SocialMediaApi.Migrations
                     b.HasIndex("OwnerId");
 
                     b.ToTable("LoginTokens");
-                });
-
-            modelBuilder.Entity("SocialMediaApi.Data.Post", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Body")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("Posted")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("PosterId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PosterId");
-
-                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("SocialMediaApi.Data.User", b =>
@@ -139,21 +99,6 @@ namespace SocialMediaApi.Migrations
                     b.ToTable("UserUser");
                 });
 
-            modelBuilder.Entity("PostUser", b =>
-                {
-                    b.HasOne("SocialMediaApi.Data.User", null)
-                        .WithMany()
-                        .HasForeignKey("LikedById")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SocialMediaApi.Data.Post", null)
-                        .WithMany()
-                        .HasForeignKey("LikedPostsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("SocialMediaApi.Data.LoginToken", b =>
                 {
                     b.HasOne("SocialMediaApi.Data.User", "Owner")
@@ -163,17 +108,6 @@ namespace SocialMediaApi.Migrations
                         .IsRequired();
 
                     b.Navigation("Owner");
-                });
-
-            modelBuilder.Entity("SocialMediaApi.Data.Post", b =>
-                {
-                    b.HasOne("SocialMediaApi.Data.User", "Poster")
-                        .WithMany("Posts")
-                        .HasForeignKey("PosterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Poster");
                 });
 
             modelBuilder.Entity("UserUser", b =>
@@ -194,8 +128,6 @@ namespace SocialMediaApi.Migrations
             modelBuilder.Entity("SocialMediaApi.Data.User", b =>
                 {
                     b.Navigation("LoginTokens");
-
-                    b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618
         }

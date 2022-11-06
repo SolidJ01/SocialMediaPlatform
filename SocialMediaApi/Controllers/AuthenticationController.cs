@@ -161,7 +161,7 @@ namespace SocialMediaApi.Controllers
                 {
                     Username = input.Username,
                     Email = input.Email,
-                    ProfilePictureSource = "/Images/Default/pfp.png"
+                    ProfilePictureSource = "Images/Default/pfp.png"
                 };
                 user.HashedPassword = StringHasher.HashString(input.Password);
 
@@ -178,7 +178,12 @@ namespace SocialMediaApi.Controllers
                 UserLoginInput loginInput = new UserLoginInput
                 {
                     Username = input.Username,
-                    Password = input.Password
+                    Password = input.Password, 
+                    DeviceIdiom = input.DeviceIdiom, 
+                    DeviceManufacturer = input.DeviceManufacturer, 
+                    DeviceModel = input.DeviceModel, 
+                    DevicePlatform = input.DevicePlatform, 
+                    DeviceType = input.DeviceType
                 };
                 return await LoginUser(loginInput);
             }
