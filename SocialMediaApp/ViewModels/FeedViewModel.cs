@@ -14,6 +14,7 @@ namespace SocialMediaApp.ViewModels
 {
     public class FeedViewModel : BaseViewModel
     {
+        private string baseURL = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5166" : "http://localhost:5166";
         private AuthenticationService _authenticationService;
         public ObservableCollection<Post> Posts { get; set; }
 
@@ -30,7 +31,7 @@ namespace SocialMediaApp.ViewModels
         {
             get
             {
-                return _userData != null ? Path.Combine("http://10.0.2.2:5166", _userData.profilePictureSource) : "";
+                return _userData != null ? Path.Combine(baseURL, _userData.profilePictureSource) : "";
             }
         }
 

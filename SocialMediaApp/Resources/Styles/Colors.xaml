@@ -4,8 +4,8 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <Color x:Key="Primary">#440E48</Color>
-    <Color x:Key="PrimaryVariant">#0E2A4B</Color>
+    <Color x:Key="Primary">#0E2A4B</Color>
+    <Color x:Key="PrimaryVariant">#440E48</Color>
     <Color x:Key="Secondary">White</Color>
     <Color x:Key="Tertiary">Orange</Color>
     <Color x:Key="White">White</Color>
@@ -23,8 +23,8 @@
     <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource Tertiary}"/>
 
     <LinearGradientBrush x:Key="PrimaryGradientBrush" StartPoint="0,1" EndPoint="1,0">
-        <GradientStop Color="{StaticResource Primary}" Offset="0" />
-        <GradientStop Color="{StaticResource PrimaryVariant}" Offset="1" />
+        <GradientStop Color="{StaticResource PrimaryVariant}" Offset="0" />
+        <GradientStop Color="{StaticResource Primary}" Offset="1" />
     </LinearGradientBrush>
     
     <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource White}"/>

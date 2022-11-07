@@ -12,6 +12,7 @@ namespace SocialMediaApp.ViewModels
 {
     public class ProfileViewModel : AuthenticatedPageViewModel
     {
+        private string baseURL = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5166" : "http://localhost:5166";
         public string Username
         {
             get
@@ -24,7 +25,7 @@ namespace SocialMediaApp.ViewModels
         {
             get
             {
-                return UserData != null ? Path.Combine("http://10.0.2.2:5166", UserData.profilePictureSource) : "";
+                return UserData != null ? Path.Combine(baseURL, UserData.profilePictureSource) : "";
             }
         }
 

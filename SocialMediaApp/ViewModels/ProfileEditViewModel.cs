@@ -14,21 +14,19 @@ namespace SocialMediaApp.ViewModels
 {
     public class ProfileEditViewModel : AuthenticatedPageViewModel
     {
+        private string baseURL = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5166" : "http://localhost:5166";
         private FileResult _newPhoto;
         public ImageSource PFPSource
         {
-            //get { return "http://10.0.2.2:5166/Images/Default/pfp.png"; }
-            //set { pfpsource = value; }
             get
             {
-                //return ImageSource.FromUri(new Uri(Path.Combine("http://10.0.2.2:5166", UserData.profilePictureSource)));
                 if (UserData == null)
                 {
-                    return null; // ImageSource.FromUri(new Uri("http://10.0.2.2:5166/Images/Default/pfp.png"));
+                    return null;
                 }
                 else if (_newPhoto == null)
                 {
-                    return ImageSource.FromUri(new Uri(Path.Combine("http://10.0.2.2:5166", UserData.profilePictureSource)));
+                    return ImageSource.FromUri(new Uri(Path.Combine(baseURL, UserData.profilePictureSource)));
                 }
                 else
                 {
@@ -143,7 +141,7 @@ namespace SocialMediaApp.ViewModels
                     {
                         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("multipart/form-data"));
 
-                        var response = await client.PostAsync("http://10.0.2.2:5166/api/File", formContent);
+                        var response = await client.PostAsync(Path.Combine(baseURL, "api/File"), formContent);
                         if (response.IsSuccessStatusCode)
                         {
                             var result = await response.Content.ReadAsStringAsync();
@@ -160,7 +158,7 @@ namespace SocialMediaApp.ViewModels
                 var jsonRequest = JsonSerializer.Serialize(request);
                 var requestContent = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
 
-                var result = await client.PostAsync("http://10.0.2.2:5166/api/User", requestContent);
+                var result = await client.PostAsync(Path.Combine(baseURL, "api/User"), requestContent);
                 if (result.IsSuccessStatusCode)
                 {
                     GoBack();
